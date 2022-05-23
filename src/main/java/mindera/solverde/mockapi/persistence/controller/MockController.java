@@ -14,6 +14,7 @@ public class MockController {
         return ResponseEntity.ok(result);
     }
 
+
     @PostMapping("/post")
     public ResponseEntity<String> postMessage(@RequestBody String post){
 
