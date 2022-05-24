@@ -15,7 +15,6 @@ import java.io.*;
 @Order(1)
 public class RequestResponseLoggingFilter implements Filter {
 
-
     @Override
     public void doFilter(
             ServletRequest request,
@@ -42,6 +41,4 @@ public class RequestResponseLoggingFilter implements Filter {
         System.out.println("Date: " + res.getHeader("Date"));
         System.out.println("response Str: " + responseStr);
     }
-
-    // other methods
 }
