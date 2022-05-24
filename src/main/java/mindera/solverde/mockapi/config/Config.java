@@ -1,10 +1,15 @@
 package mindera.solverde.mockapi.config;
 
 import mindera.solverde.mockapi.service.RequestResponseLoggingFilter;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 
+import javax.servlet.http.HttpServletRequestWrapper;
+import javax.xml.ws.RequestWrapper;
+
 public class Config {
+
 
     @Bean
     public FilterRegistrationBean<RequestResponseLoggingFilter> loggingFilter(){
@@ -17,4 +22,6 @@ public class Config {
 
         return registrationBean;
     }
+
+
 }
