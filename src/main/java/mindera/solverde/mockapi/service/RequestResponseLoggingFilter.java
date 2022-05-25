@@ -18,7 +18,6 @@ import java.io.*;
 @Order(1)
 public class RequestResponseLoggingFilter implements Filter {
 
-
     @Override
     public void doFilter(
             ServletRequest request,
@@ -102,6 +101,4 @@ public class RequestResponseLoggingFilter implements Filter {
 //        System.out.println("Content Type: " + res.getContentType());
 //        System.out.println("Header Fields: " + res.getHeaderNames());
     }
-
-    // other methods
 }
