@@ -1,0 +1,24 @@
+{
+  "response" : {
+    "body" : "{\"fact\":\"The biggest wildcat today is the Siberian Tiger. It can be more than 12 feet (3.6 m) long (about the size of a small car) and weigh up to 700 pounds (317 kg).\",\"length\":158}"
+  },
+  "date" : "Wed, 25 May 2022 16:15:05 GMT",
+  "service" : null,
+  "environment" : null,
+  "request" : {
+    "body" : "\"hello\"",
+    "method" : "GET",
+    "originalURL" : "/get",
+    "query" : null,
+    "header" : {
+      "contentLength" : "7",
+      "userAgent" : "PostmanRuntime/7.29.0",
+      "acceptEncoding" : "gzip, deflate, br",
+      "accept" : "*/*",
+      "host" : "localhost:8080",
+      "connection" : "keep-alive",
+      "contentType" : "text/plain"
+    }
+  },
+  "responseTime" : null
+}
