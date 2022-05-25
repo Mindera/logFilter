@@ -1,0 +1,24 @@
+{
+  "response" : {
+    "body" : "{\"fact\":\"Cats have supersonic hearing\",\"length\":28}"
+  },
+  "date" : "Wed, 25 May 2022 17:18:49 GMT",
+  "service" : null,
+  "environment" : null,
+  "request" : {
+    "body" : "\"hello\"",
+    "method" : "GET",
+    "originalURL" : "/get",
+    "query" : null,
+    "header" : {
+      "contentLength" : "7",
+      "userAgent" : "PostmanRuntime/7.29.0",
+      "acceptEncoding" : "gzip, deflate, br",
+      "accept" : "*/*",
+      "host" : "localhost:8080",
+      "connection" : "keep-alive",
+      "contentType" : "text/plain"
+    }
+  },
+  "responseTime" : null
+}
