@@ -6,15 +6,18 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
+        <module name="mockapi" />
         <module name="requestInterceptor" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
+      <module name="mockapi" target="1.8" />
       <module name="requestInterceptor" target="1.8" />
     </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="mockapi" options="-parameters" />
       <module name="requestInterceptor" options="-parameters" />
     </option>
   </component>
