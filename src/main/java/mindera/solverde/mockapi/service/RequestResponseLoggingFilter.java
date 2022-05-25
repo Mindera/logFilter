@@ -1,5 +1,7 @@
 package mindera.solverde.mockapi.service;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
 import mindera.solverde.mockapi.models.Header;
 import mindera.solverde.mockapi.models.Log;
 import mindera.solverde.mockapi.models.Request;
@@ -40,12 +42,13 @@ public class RequestResponseLoggingFilter implements Filter {
         HttpServletRequest req = (HttpServletRequest) request;
         HttpServletResponse res = (HttpServletResponse) response;
 
+        ObjectMapper mapper = new ObjectMapper();
         Log log = new Log();
 
         log.setResponse(new Response(responseStr));
-        log.setDate(req.getHeader("Date"));
-        log.setService(res.getHeader("service"));
-        log.setEnvironment(res.getHeader("environment"));
+        log.setDate(res.getHeader("Date"));
+        log.setService(res.getHeader("Service"));
+        log.setEnvironment(res.getHeader("Environment"));
         log.setRequest(
                 new Request(
                         requestString,
@@ -60,8 +63,11 @@ public class RequestResponseLoggingFilter implements Filter {
                                 req.getHeader("host"),
                                 req.getHeader("connection"),
                                 req.getContentType())));
+        log.setResponseTime(res.getHeader("response-time"));
 
-        System.out.println(log);
+        mapper.enable(SerializationFeature.INDENT_OUTPUT);
+        mapper.writeValue(System.out, log);
+        mapper.writeValue(new File("log.json"), log);
 
 
 //        String filteredResponse = new String(
