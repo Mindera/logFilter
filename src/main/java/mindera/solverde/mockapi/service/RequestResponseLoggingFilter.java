@@ -2,13 +2,11 @@ package mindera.solverde.mockapi.service;
 
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
-import org.springframework.web.util.ContentCachingRequestWrapper;
 import org.springframework.web.util.ContentCachingResponseWrapper;
 
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.Part;
 import java.io.*;
 
 @Component
@@ -28,8 +26,6 @@ public class RequestResponseLoggingFilter implements Filter {
         String responseStr = new String(responseArray, response.getCharacterEncoding());
 
         responseWrapper.copyBodyToResponse();
-
-
 
         HttpServletRequest req = (HttpServletRequest) request;
         HttpServletResponse res = (HttpServletResponse) response;
