@@ -1,10 +1,10 @@
 package mindera.solverde.mockapi.models;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.RequiredArgsConstructor;
 
 @Data
-@RequiredArgsConstructor
+@AllArgsConstructor
 public class Log {
     private Response response;
     private String date;
