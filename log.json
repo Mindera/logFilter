@@ -1,8 +1,8 @@
 {
   "response" : {
-    "body" : "{\"fact\":\"Cats have supersonic hearing\",\"length\":28}"
+    "body" : "{\"fact\":\"Cats' eyes shine in the dark because of the tapetum, a reflective layer in the eye, which acts like a mirror.\",\"length\":109}"
   },
-  "date" : "Wed, 25 May 2022 17:18:49 GMT",
+  "date" : "Wed, 25 May 2022 17:44:29 GMT",
   "service" : null,
   "environment" : null,
   "request" : {
