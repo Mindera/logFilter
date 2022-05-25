@@ -16,16 +16,5 @@ public class Header {
     private String connection;
     private String ContentType;
 
-    @Override
-    public String toString() {
-        return "Header{" +
-                "contentLength='" + contentLength + '\n' +
-                ", userAgent='" + userAgent + '\n' +
-                ", acceptEncoding='" + acceptEncoding + '\'' +
-                ", accept='" + accept + '\n' +
-                ", host='" + host + '\n' +
-                ", connection='" + connection + '\n' +
-                ", ContentType='" + ContentType + '\n' +
-                '}';
-    }
+
 }

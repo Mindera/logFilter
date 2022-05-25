@@ -13,14 +13,4 @@ public class Request {
     private String query;
     private Header header;
 
-    @Override
-    public String toString() {
-        return "Request{" +
-                "body='" + body + '\n' +
-                ", method='" + method + '\n' +
-                ", originalURL='" + originalURL + '\n' +
-                ", query='" + query + '\n' +
-                ", header=" + header +
-                '}';
-    }
 }

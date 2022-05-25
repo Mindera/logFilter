@@ -14,7 +14,7 @@ public class MockController {
         WebClient webClient = WebClient.create();
 
         String response = webClient.get()
-                .uri("https://catfact.ninja/breeds")
+                .uri("https://catfact.ninja/fact")
                 .exchangeToMono(clientResponse -> clientResponse.bodyToMono(String.class)).block();
 
         String result = "hello get";

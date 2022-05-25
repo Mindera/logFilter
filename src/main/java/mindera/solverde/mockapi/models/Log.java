@@ -13,17 +13,6 @@ public class Log {
     private Request request;
     private String responseTime;
 
-    @Override
-    public String toString() {
-        return "Log{" +
-                "response=" + response +
-                ", date='" + date + '\'' +
-                ", service='" + service + '\'' +
-                ", environment='" + environment + '\'' +
-                ", request=" + request +
-                ", responseTime='" + responseTime + '\'' +
-                '}';
-    }
 }
 
 

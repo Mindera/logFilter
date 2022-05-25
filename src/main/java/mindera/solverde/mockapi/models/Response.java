@@ -7,11 +7,4 @@ import lombok.Data;
 @AllArgsConstructor
 public class Response {
     private String body;
-
-    @Override
-    public String toString() {
-        return "Response{" +
-                "body='" + body + '\'' +
-                '}';
-    }
 }
