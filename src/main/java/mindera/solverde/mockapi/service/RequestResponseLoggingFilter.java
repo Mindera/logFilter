@@ -1,5 +1,6 @@
 package mindera.solverde.mockapi.service;
 
+import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import mindera.solverde.mockapi.models.Header;
@@ -19,6 +20,14 @@ import java.io.*;
 @Component
 @Order(1)
 public class RequestResponseLoggingFilter implements Filter {
+
+    private final ObjectMapper objectMapper;
+
+    public RequestResponseLoggingFilter() {
+        objectMapper = new ObjectMapper()
+                .enable(SerializationFeature.INDENT_OUTPUT)
+                .configure(JsonGenerator.Feature.AUTO_CLOSE_TARGET, false);
+    }
 
     @Override
     public void doFilter(
@@ -42,7 +51,7 @@ public class RequestResponseLoggingFilter implements Filter {
         HttpServletRequest req = (HttpServletRequest) request;
         HttpServletResponse res = (HttpServletResponse) response;
 
-        ObjectMapper mapper = new ObjectMapper();
+//        ObjectMapper mapper = new ObjectMapper();
         Log log = new Log();
 
         log.setResponse(new Response(responseStr));
@@ -63,11 +72,24 @@ public class RequestResponseLoggingFilter implements Filter {
                                 req.getHeader("host"),
                                 req.getHeader("connection"),
                                 req.getContentType())));
+//                        req.getHeader("content-length")
+//                                .concat(req.getHeader("user-agent"))
+//                                .concat(req.getHeader("accept-encoding"))
+//                                .concat(req.getHeader("accept"))
+//                                .concat(req.getHeader("host"))
+//                                .concat(req.getHeader("connection"))
+//                                .concat(req.getContentType())
+//                                ));
         log.setResponseTime(res.getHeader("response-time"));
 
-        mapper.enable(SerializationFeature.INDENT_OUTPUT);
-        mapper.writeValue(System.out, log);
-        mapper.writeValue(new File("log.json"), log);
+
+//        System.out.println(objectMapper.writeValueAsString(log));
+
+        objectMapper.writeValue(System.out, log);
+
+//        mapper.writeValue(System.out, log);
+//        FileWriter fileWriter = new FileWriter("log.json", true);
+//        mapper.writeValue(fileWriter, log);
 
 
 //        String filteredResponse = new String(
