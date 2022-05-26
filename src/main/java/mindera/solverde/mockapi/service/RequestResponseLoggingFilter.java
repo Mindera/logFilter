@@ -51,7 +51,6 @@ public class RequestResponseLoggingFilter implements Filter {
         HttpServletRequest req = (HttpServletRequest) request;
         HttpServletResponse res = (HttpServletResponse) response;
 
-//        ObjectMapper mapper = new ObjectMapper();
         Log log = new Log();
 
         log.setResponse(new Response(responseStr));
@@ -63,7 +62,7 @@ public class RequestResponseLoggingFilter implements Filter {
                         requestString,
                         req.getMethod(),
                         req.getRequestURI(),
-                        req.getHeader("query"),
+                        req.getQueryString(),
                         new Header(
                                 req.getHeader("content-length"),
                                 req.getHeader("user-agent"),
@@ -72,61 +71,10 @@ public class RequestResponseLoggingFilter implements Filter {
                                 req.getHeader("host"),
                                 req.getHeader("connection"),
                                 req.getContentType())));
-//                        req.getHeader("content-length")
-//                                .concat(req.getHeader("user-agent"))
-//                                .concat(req.getHeader("accept-encoding"))
-//                                .concat(req.getHeader("accept"))
-//                                .concat(req.getHeader("host"))
-//                                .concat(req.getHeader("connection"))
-//                                .concat(req.getContentType())
-//                                ));
+
         log.setResponseTime(res.getHeader("response-time"));
-
-
-//        System.out.println(objectMapper.writeValueAsString(log));
 
         objectMapper.writeValue(System.out, log);
 
-//        mapper.writeValue(System.out, log);
-//        FileWriter fileWriter = new FileWriter("log.json", true);
-//        mapper.writeValue(fileWriter, log);
-
-
-//        String filteredResponse = new String(
-//                "response: " + responseStr + "\n" +
-//                "date: " + res.getHeader("Date") + "\n" +
-//                "service: " + res.getHeader("service") + "\n" +
-//                "environment: " + res.getHeader("environment") + "\n" +
-//                "request: {\n" +
-//                        "body: "+ requestString + "\n" +
-//                "method: " + req.getMethod() + "\n" +
-//                "path: " + req.getRequestURI() + "\n" +
-//                "status: " + res.getStatus() + "\n" +
-//                "query: " + req.getQueryString() + "\n" +
-//                "headers : {\n" +
-//                        "content-length: " + req.getHeader("content-length") + "\n" +
-//                        "user-agent: " + req.getHeader("user-agent") + "\n" +
-//                        "accept-encoding: " + req.getHeader("accept-encoding") + "\n" +
-//                        "accept: " + req.getHeader("accept") + "\n" +
-//                        "host: " + req.getHeader("host") + "\n" +
-//                        "connection: " + req.getHeader("connection") + "\n" +
-//                        "content-type: " + req.getHeader("content-type") + "\n" +
-//                        "}\n" + "}\n" +
-//                "message: " + req.getHeader("message"));
-//
-//
-//        System.out.println(filteredResponse);
-
-//        System.out.println("responseBody: " + responseStr);
-//        System.out.println("date: " + res.getHeader("Date"));
-//        System.out.println("service" + res.getHeader("service"));
-//        System.out.println("environment" + res.getHeader("environment"));
-//        System.out.println("requestBody: " + requestString);
-//        System.out.println("method:" + req.getMethod());
-//        System.out.println("URI: " + req.getRequestURI());
-//        System.out.println("response: " + res.getStatus());
-//        System.out.println();
-//        System.out.println("Content Type: " + res.getContentType());
-//        System.out.println("Header Fields: " + res.getHeaderNames());
     }
 }
