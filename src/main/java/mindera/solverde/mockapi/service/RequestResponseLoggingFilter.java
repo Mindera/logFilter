@@ -8,6 +8,7 @@ import mindera.solverde.mockapi.models.Log;
 import mindera.solverde.mockapi.models.Request;
 import mindera.solverde.mockapi.models.Response;
 import org.springframework.core.annotation.Order;
+import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Component;
 import org.springframework.web.util.ContentCachingRequestWrapper;
 import org.springframework.web.util.ContentCachingResponseWrapper;
@@ -16,6 +17,11 @@ import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
+import java.util.Collections;
+import java.util.Enumeration;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @Component
 @Order(1)
@@ -51,6 +57,11 @@ public class RequestResponseLoggingFilter implements Filter {
         HttpServletRequest req = (HttpServletRequest) request;
         HttpServletResponse res = (HttpServletResponse) response;
 
+
+        Map<String, String> headers = Collections.list(req.getHeaderNames())
+                .stream()
+                .collect(Collectors.toMap(h -> h, req::getHeader));
+
         Log log = new Log();
 
         log.setResponse(new Response(responseStr));
@@ -63,16 +74,8 @@ public class RequestResponseLoggingFilter implements Filter {
                         req.getMethod(),
                         req.getRequestURI(),
                         req.getQueryString(),
-                        new Header(
-                                req.getHeader("content-length"),
-                                req.getHeader("user-agent"),
-                                req.getHeader("accept-encoding"),
-                                req.getHeader("accept"),
-                                req.getHeader("host"),
-                                req.getHeader("connection"),
-                                req.getContentType())));
-
-        log.setResponseTime(res.getHeader("response-time"));
+                        headers));
+//                        log.setResponseTime(res.getHeader("response-time")));
 
         objectMapper.writeValue(System.out, log);
 

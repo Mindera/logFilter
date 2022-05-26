@@ -9,7 +9,7 @@ import org.springframework.web.reactive.function.client.WebClient;
 public class MockController {
 
     @GetMapping("/get")
-    public ResponseEntity<String> getHello(){
+    public ResponseEntity<String> getHello(@RequestBody String get){
 
 //        WebClient webClient = WebClient.create();
 //
@@ -18,7 +18,7 @@ public class MockController {
 //                .exchangeToMono(clientResponse -> clientResponse.bodyToMono(String.class)).block();
 
         String result = "hello get";
-        return ResponseEntity.ok(Thread.currentThread().getName() + " " + result);
+        return ResponseEntity.ok(Thread.currentThread().getName() + " " + get);
     }
 
     @PostMapping("/post")
