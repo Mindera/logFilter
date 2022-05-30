@@ -28,20 +28,16 @@ public class RequestResponseLoggingFilter extends OncePerRequestFilter {
 
     public RequestResponseLoggingFilter() {
         objectMapper = new ObjectMapper()
-                .enable(SerializationFeature.INDENT_OUTPUT)
+//                .enable(SerializationFeature.INDENT_OUTPUT)
                 .configure(JsonGenerator.Feature.AUTO_CLOSE_TARGET, false);
     }
 
     @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+    protected void doFilterInternal(
+            HttpServletRequest request,
+            HttpServletResponse response,
+            FilterChain filterChain) throws ServletException, IOException {
 
-//    }
-//
-//    @Override
-//    public void doFilterInternal(
-//            ServletRequest request,
-//            ServletResponse response,
-//            FilterChain chain) throws ServletException, IOException {
 
         ContentCachingRequestWrapper requestWrapper = new ContentCachingRequestWrapper((HttpServletRequest) request);
         ContentCachingResponseWrapper responseWrapper = new ContentCachingResponseWrapper((HttpServletResponse) response);
@@ -56,12 +52,7 @@ public class RequestResponseLoggingFilter extends OncePerRequestFilter {
 
         responseWrapper.copyBodyToResponse();
 
-
-        HttpServletRequest req = (HttpServletRequest) request;
-        HttpServletResponse res = (HttpServletResponse) response;
-
-        generateLog(req, res, requestString, responseStr);
-
+        generateLog(request, response, requestString, responseStr);
 
     }
 
@@ -72,7 +63,6 @@ public class RequestResponseLoggingFilter extends OncePerRequestFilter {
         Map<String, String> headers = Collections.list(req.getHeaderNames())
                 .stream()
                 .collect(Collectors.toMap(h -> h, req::getHeader));
-
 
         log.setResponse(new Response(responseStr));
         log.setDate(res.getHeader("Date"));
@@ -87,8 +77,8 @@ public class RequestResponseLoggingFilter extends OncePerRequestFilter {
                         headers));
         log.setResponseTime(res.getHeader("response-time"));
 
-//        objectMapper.writeValue(System.out, log);
         System.out.println(log);
+        objectMapper.writeValue(System.out, log);
     }
 
 }
