@@ -2,9 +2,7 @@ package mindera.solverde.mockapi.models;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import lombok.Data;
-import org.springframework.beans.factory.annotation.Autowired;
 
-import java.util.List;
 import java.util.Map;
 
 @Data

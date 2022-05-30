@@ -9,16 +9,16 @@ import org.springframework.web.reactive.function.client.WebClient;
 public class MockController {
 
     @GetMapping("/get")
-    public ResponseEntity<String> getHello(@RequestBody String get){
+    public ResponseEntity<String> getHello(){
 
-//        WebClient webClient = WebClient.create();
-//
-//        String response = webClient.get()
-//                .uri("https://catfact.ninja/fact")
-//                .exchangeToMono(clientResponse -> clientResponse.bodyToMono(String.class)).block();
+        WebClient webClient = WebClient.create();
+
+        String response = webClient.get()
+                .uri("https://catfact.ninja/fact")
+                .exchangeToMono(clientResponse -> clientResponse.bodyToMono(String.class)).block();
 
         String result = "hello get";
-        return ResponseEntity.ok(Thread.currentThread().getName() + " " + get);
+        return ResponseEntity.ok(response);
     }
 
     @PostMapping("/post")
