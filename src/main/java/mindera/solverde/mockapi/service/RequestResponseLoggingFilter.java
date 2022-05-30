@@ -3,13 +3,12 @@ package mindera.solverde.mockapi.service;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
-import mindera.solverde.mockapi.models.Header;
 import mindera.solverde.mockapi.models.Log;
 import mindera.solverde.mockapi.models.Request;
 import mindera.solverde.mockapi.models.Response;
 import org.springframework.core.annotation.Order;
-import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Component;
+import org.springframework.web.filter.OncePerRequestFilter;
 import org.springframework.web.util.ContentCachingRequestWrapper;
 import org.springframework.web.util.ContentCachingResponseWrapper;
 
@@ -18,14 +17,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 import java.util.Collections;
-import java.util.Enumeration;
-import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
 @Component
 @Order(1)
-public class RequestResponseLoggingFilter implements Filter {
+public class RequestResponseLoggingFilter extends OncePerRequestFilter {
 
     private final ObjectMapper objectMapper;
 
@@ -36,15 +33,21 @@ public class RequestResponseLoggingFilter implements Filter {
     }
 
     @Override
-    public void doFilter(
-            ServletRequest request,
-            ServletResponse response,
-            FilterChain chain) throws IOException, ServletException {
+    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+
+//    }
+//
+//    @Override
+//    public void doFilterInternal(
+//            ServletRequest request,
+//            ServletResponse response,
+//            FilterChain chain) throws ServletException, IOException {
 
         ContentCachingRequestWrapper requestWrapper = new ContentCachingRequestWrapper((HttpServletRequest) request);
         ContentCachingResponseWrapper responseWrapper = new ContentCachingResponseWrapper((HttpServletResponse) response);
 
-        chain.doFilter(requestWrapper, responseWrapper);
+
+        filterChain.doFilter(requestWrapper, responseWrapper);
 
         byte[] requestArray = requestWrapper.getContentAsByteArray();
         byte[] responseArray = responseWrapper.getContentAsByteArray();
@@ -57,12 +60,19 @@ public class RequestResponseLoggingFilter implements Filter {
         HttpServletRequest req = (HttpServletRequest) request;
         HttpServletResponse res = (HttpServletResponse) response;
 
+        generateLog(req, res, requestString, responseStr);
+
+
+    }
+
+
+    public void generateLog(HttpServletRequest req, HttpServletResponse res, String requestString, String responseStr) throws IOException {
+        Log log = new Log();
 
         Map<String, String> headers = Collections.list(req.getHeaderNames())
                 .stream()
                 .collect(Collectors.toMap(h -> h, req::getHeader));
 
-        Log log = new Log();
 
         log.setResponse(new Response(responseStr));
         log.setDate(res.getHeader("Date"));
@@ -75,9 +85,10 @@ public class RequestResponseLoggingFilter implements Filter {
                         req.getRequestURI(),
                         req.getQueryString(),
                         headers));
-//                        log.setResponseTime(res.getHeader("response-time")));
+        log.setResponseTime(res.getHeader("response-time"));
 
-        objectMapper.writeValue(System.out, log);
-
+//        objectMapper.writeValue(System.out, log);
+        System.out.println(log);
     }
+
 }
