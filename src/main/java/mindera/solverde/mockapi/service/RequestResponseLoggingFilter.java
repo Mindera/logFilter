@@ -8,7 +8,6 @@ import mindera.solverde.mockapi.models.Request;
 import mindera.solverde.mockapi.models.Response;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
-import org.springframework.web.filter.OncePerRequestFilter;
 import org.springframework.web.util.ContentCachingRequestWrapper;
 import org.springframework.web.util.ContentCachingResponseWrapper;
 
@@ -22,21 +21,20 @@ import java.util.stream.Collectors;
 
 @Component
 @Order(1)
-public class RequestResponseLoggingFilter extends OncePerRequestFilter {
+public class RequestResponseLoggingFilter implements Filter {
 
     private final ObjectMapper objectMapper;
 
     public RequestResponseLoggingFilter() {
         objectMapper = new ObjectMapper()
-//                .enable(SerializationFeature.INDENT_OUTPUT)
+                .enable(SerializationFeature.INDENT_OUTPUT)
                 .configure(JsonGenerator.Feature.AUTO_CLOSE_TARGET, false);
     }
 
     @Override
-    protected void doFilterInternal(
-            HttpServletRequest request,
-            HttpServletResponse response,
-            FilterChain filterChain) throws ServletException, IOException {
+    public void doFilter(ServletRequest request,
+                         ServletResponse response,
+                         FilterChain filterChain) throws IOException, ServletException {
 
 
         ContentCachingRequestWrapper requestWrapper = new ContentCachingRequestWrapper((HttpServletRequest) request);
@@ -52,12 +50,13 @@ public class RequestResponseLoggingFilter extends OncePerRequestFilter {
 
         responseWrapper.copyBodyToResponse();
 
-        generateLog(request, response, requestString, responseStr);
+        generateLog(requestWrapper, responseWrapper, requestString, responseStr);
 
     }
 
 
     public void generateLog(HttpServletRequest req, HttpServletResponse res, String requestString, String responseStr) throws IOException {
+
         Log log = new Log();
 
         Map<String, String> headers = Collections.list(req.getHeaderNames())
@@ -77,7 +76,6 @@ public class RequestResponseLoggingFilter extends OncePerRequestFilter {
                         headers));
         log.setResponseTime(res.getHeader("response-time"));
 
-        System.out.println(log);
         objectMapper.writeValue(System.out, log);
     }
 
