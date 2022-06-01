@@ -1,4 +1,4 @@
-package mindera.solverde.mockapi.service;
+package mindera.solverde.logfilter.service;
 
 import org.apache.tomcat.util.http.fileupload.IOUtils;
 
