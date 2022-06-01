@@ -1,4 +1,4 @@
-package mindera.solverde.mockapi;
+package mindera.solverde.logfilter;
 
 //import org.junit.jupiter.api.Test;
 //import org.springframework.boot.test.context.SpringBootTest;

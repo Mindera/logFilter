@@ -1,7 +1,4 @@
-package mindera.solverde.mockapi.service;
-
-
-import org.apache.tomcat.util.http.fileupload.IOUtils;
+package mindera.solverde.logfilter.service;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -13,12 +10,12 @@ import javax.servlet.http.HttpServletRequestWrapper;
 
 public class RequestWrapper extends HttpServletRequestWrapper {
 
-    private final String body;
+    private String body;
 
 
     public RequestWrapper(HttpServletRequest request) throws IOException {
         super(request);
-        body = IOUtils.toString(request.getReader());
+        body = String.valueOf(request.getReader());
     }
 
     @Override

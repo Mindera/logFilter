@@ -1,11 +1,10 @@
-package mindera.solverde.mockapi.service;
+package mindera.solverde.logfilter.service;
 
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
-import mindera.solverde.mockapi.models.Log;
-import mindera.solverde.mockapi.models.Request;
-import mindera.solverde.mockapi.models.Response;
+import mindera.solverde.logfilter.models.Log;
+import mindera.solverde.logfilter.models.Request;
+import mindera.solverde.logfilter.models.Response;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 import org.springframework.web.util.ContentCachingRequestWrapper;
@@ -27,7 +26,7 @@ public class RequestResponseLoggingFilter implements Filter {
 
     public RequestResponseLoggingFilter() {
         objectMapper = new ObjectMapper()
-                .enable(SerializationFeature.INDENT_OUTPUT)
+//                .enable(SerializationFeature.INDENT_OUTPUT)
                 .configure(JsonGenerator.Feature.AUTO_CLOSE_TARGET, false);
     }
 
@@ -53,6 +52,37 @@ public class RequestResponseLoggingFilter implements Filter {
         generateLog(requestWrapper, responseWrapper, requestString, responseStr);
 
     }
+//
+//    @Override
+//    public void doFilter(ServletRequest request,
+//                         ServletResponse response,
+//                         FilterChain filterChain) throws IOException, ServletException {
+//
+//        HttpServletRequest httpRequest = (HttpServletRequest) request;
+//        HttpServletResponse httpResponse = (HttpServletResponse) response;
+//
+//        String requestBody = getRequestBody(httpRequest);
+//        String responseBody = getResponseBody(httpResponse);
+//
+//        generateLog(httpRequest, httpResponse, requestBody, responseBody);
+//
+//        filterChain.doFilter(request, response);
+//    }
+//
+//    public String getRequestBody(HttpServletRequest httpRequest) throws IOException {
+//        BufferedReader reader = httpRequest.getReader();
+//        StringBuilder sb = new StringBuilder();
+//        String line;
+//        while ((line = reader.readLine()) != null) {
+//            sb.append(line);
+//        }
+//        return sb.toString();
+//    }
+//
+//    public String getResponseBody(HttpServletResponse httpResponse) throws IOException {
+//
+//        return "hello from response";
+//    }
 
 
     public void generateLog(HttpServletRequest req, HttpServletResponse res, String requestString, String responseStr) throws IOException {
