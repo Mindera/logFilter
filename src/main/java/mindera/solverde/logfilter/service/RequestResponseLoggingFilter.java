@@ -18,8 +18,7 @@ import java.util.Collections;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-@Component
-@Order(1)
+
 public class RequestResponseLoggingFilter implements Filter {
 
     private final ObjectMapper objectMapper;
