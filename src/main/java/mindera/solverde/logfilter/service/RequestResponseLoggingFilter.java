@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import mindera.solverde.logfilter.models.Log;
 import mindera.solverde.logfilter.models.Request;
 import mindera.solverde.logfilter.models.Response;
+import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 import org.springframework.web.util.ContentCachingRequestWrapper;
@@ -38,8 +39,9 @@ public class RequestResponseLoggingFilter implements Filter {
         ContentCachingRequestWrapper requestWrapper = new ContentCachingRequestWrapper((HttpServletRequest) request);
         ContentCachingResponseWrapper responseWrapper = new ContentCachingResponseWrapper((HttpServletResponse) response);
 
-
+        long startTime = System.currentTimeMillis();
         filterChain.doFilter(requestWrapper, responseWrapper);
+        long endTime = System.currentTimeMillis() - startTime;
 
         byte[] requestArray = requestWrapper.getContentAsByteArray();
         byte[] responseArray = responseWrapper.getContentAsByteArray();
@@ -48,10 +50,10 @@ public class RequestResponseLoggingFilter implements Filter {
 
         responseWrapper.copyBodyToResponse();
 
-        generateLog(requestWrapper, responseWrapper, requestString, responseStr);
+        generateLog(requestWrapper, responseWrapper, requestString, responseStr, endTime);
 
     }
-//
+
 //    @Override
 //    public void doFilter(ServletRequest request,
 //                         ServletResponse response,
@@ -63,9 +65,11 @@ public class RequestResponseLoggingFilter implements Filter {
 //        String requestBody = getRequestBody(httpRequest);
 //        String responseBody = getResponseBody(httpResponse);
 //
-//        generateLog(httpRequest, httpResponse, requestBody, responseBody);
-//
+//        long startTime = System.currentTimeMillis();
 //        filterChain.doFilter(request, response);
+//        long endTime = System.currentTimeMillis() - startTime;
+//
+//        generateLog(httpRequest, httpResponse, requestBody, responseBody, endTime);
 //    }
 //
 //    public String getRequestBody(HttpServletRequest httpRequest) throws IOException {
@@ -80,11 +84,19 @@ public class RequestResponseLoggingFilter implements Filter {
 //
 //    public String getResponseBody(HttpServletResponse httpResponse) throws IOException {
 //
+//        StringWriter writer = new StringWriter();
+//        IOUtils.copy((InputStream) httpResponse.getOutputStream(), writer, "UTF-8");
+//
+//
 //        return "hello from response";
 //    }
 
 
-    public void generateLog(HttpServletRequest req, HttpServletResponse res, String requestString, String responseStr) throws IOException {
+    public void generateLog(HttpServletRequest req,
+                            HttpServletResponse res,
+                            String requestString,
+                            String responseStr,
+                            long reqTime) throws IOException {
 
         Log log = new Log();
 
@@ -103,7 +115,7 @@ public class RequestResponseLoggingFilter implements Filter {
                         req.getRequestURI(),
                         req.getQueryString(),
                         headers));
-        log.setResponseTime(res.getHeader("response-time"));
+        log.setResponseTime(String.valueOf(reqTime + " ms"));
 
         objectMapper.writeValue(System.out, log);
     }
