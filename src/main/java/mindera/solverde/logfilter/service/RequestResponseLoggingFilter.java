@@ -89,13 +89,15 @@ public class RequestResponseLoggingFilter implements Filter {
             }
         };
 
+        long start = System.currentTimeMillis();
         filterChain.doFilter(servletRequest, wrappedResp);
+        long end = System.currentTimeMillis() - start;
 
         byte[] bytes = baos.toByteArray();
         String responseStr = new String(bytes);
         servletResponse.getOutputStream().write(bytes);
 
-        generateLog(httpRequest, httpResponse, requestBody, responseStr);
+        generateLog(httpRequest, wrappedResp, requestBody, responseStr, end);
     }
 
     public String getRequestBody(HttpServletRequest httpRequest) throws IOException {
@@ -109,7 +111,7 @@ public class RequestResponseLoggingFilter implements Filter {
     }
 
 
-    public void generateLog(HttpServletRequest req, HttpServletResponse res, String requestString, String responseStr) throws IOException {
+    public void generateLog(HttpServletRequest req, HttpServletResponse res, String requestString, String responseStr, long time) throws IOException {
 
         Log log = new Log();
 
@@ -128,7 +130,7 @@ public class RequestResponseLoggingFilter implements Filter {
                         req.getRequestURI(),
                         req.getQueryString(),
                         headers));
-        log.setResponseTime(res.getHeader("response-time"));
+        log.setResponseTime(String.valueOf(time) + " ms\n");
 
         objectMapper.writeValue(System.out, log);
     }
