@@ -5,7 +5,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import mindera.solverde.logfilter.models.Log;
 import mindera.solverde.logfilter.models.Request;
 import mindera.solverde.logfilter.models.Response;
-import org.apache.catalina.connector.CoyoteInputStream;
 import org.apache.commons.io.IOUtils;
 
 import javax.servlet.*;
@@ -14,9 +13,6 @@ import javax.servlet.http.HttpServletRequestWrapper;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpServletResponseWrapper;
 import java.io.*;
-import java.nio.charset.Charset;
-import java.nio.charset.StandardCharsets;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -98,26 +94,21 @@ public class RequestResponseLoggingFilter implements Filter {
         filterChain.doFilter(wrappedRequest, wrappedResponse);
         long end = System.currentTimeMillis() - start;
 
-        String requestBody = getRequestBody(httpRequest);
+        String requestBody = getRequestBody(httpRequest, baos);
         String responseBody = getResponseBody(httpResponse, baos);
 
         generateLog(httpRequest, httpResponse, requestBody, responseBody, end);
     }
 
-    public String getRequestBody(HttpServletRequest httpServletRequest) throws IOException {
-        int n = httpServletRequest.getInputStream().available();
-        byte[] bytes = new byte[n];
-        httpServletRequest.getInputStream().read(bytes, 0, n);
-        //String str = new String(bytes, StandardCharsets.UTF_8);
-        //String str = String.valueOf(IOUtils.read(httpServletRequest.getInputStream(), bytes,0, n));
+    public String getRequestBody(HttpServletRequest httpServletRequest, ByteArrayOutputStream baos) throws IOException {
+        ByteArrayOutputStream targetStream = new ByteArrayOutputStream();
+        IOUtils.copy(httpServletRequest.getInputStream(), targetStream);
 
-        //return request.getInputStream().toString().getBytes(StandardCharsets.UTF_8).toString().getBytes(StandardCharsets.UTF_8).toString();
-        //return Arrays.toString(IOUtils.toByteArray(httpServletRequest.getInputStream()));
+        byte[] bytes = baos.toByteArray();
+        String responseStr = new String(bytes);
+        targetStream.write(bytes);
 
-        StringWriter writer = new StringWriter();
-        String encoding = StandardCharsets.UTF_8.name();
-        IOUtils.copy(httpServletRequest.getInputStream(), writer, encoding);
-        return encoding;
+        return responseStr;
     }
 
     public String getResponseBody(HttpServletResponse httpServletResponse, ByteArrayOutputStream baos) throws IOException {
@@ -157,3 +148,4 @@ public class RequestResponseLoggingFilter implements Filter {
         }
     }
 }
+
