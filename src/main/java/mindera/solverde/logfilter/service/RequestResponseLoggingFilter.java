@@ -5,9 +5,11 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import mindera.solverde.logfilter.models.Log;
 import mindera.solverde.logfilter.models.Request;
 import mindera.solverde.logfilter.models.Response;
+import org.apache.commons.io.IOUtils;
 
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletRequestWrapper;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpServletResponseWrapper;
 import java.io.*;
@@ -61,9 +63,8 @@ public class RequestResponseLoggingFilter implements Filter {
         HttpServletRequest httpRequest = (HttpServletRequest) servletRequest;
         HttpServletResponse httpResponse = (HttpServletResponse) servletResponse;
 
-        String requestBody = getRequestBody(httpRequest);
-
-        HttpServletResponse wrappedResp = new HttpServletResponseWrapper(httpResponse) {
+        final HttpServletRequest wrappedRequest = new HttpServletRequestWrapper(httpRequest);
+        final HttpServletResponse wrappedResponse = new HttpServletResponseWrapper(httpResponse) {
             @Override
             public PrintWriter getWriter() {
                 return pw;
@@ -90,26 +91,32 @@ public class RequestResponseLoggingFilter implements Filter {
         };
 
         long start = System.currentTimeMillis();
-        filterChain.doFilter(servletRequest, wrappedResp);
+        filterChain.doFilter(wrappedRequest, wrappedResponse);
         long end = System.currentTimeMillis() - start;
+
+        String requestBody = getRequestBody(httpRequest, baos);
+        String responseBody = getResponseBody(httpResponse, baos);
+
+        generateLog(httpRequest, httpResponse, requestBody, responseBody, end);
+    }
+
+    public String getRequestBody(HttpServletRequest httpServletRequest, ByteArrayOutputStream baos) throws IOException {
+        ByteArrayOutputStream targetStream = new ByteArrayOutputStream();
+        IOUtils.copy(httpServletRequest.getInputStream(), targetStream);
 
         byte[] bytes = baos.toByteArray();
         String responseStr = new String(bytes);
-        servletResponse.getOutputStream().write(bytes);
+        targetStream.write(bytes);
 
-        generateLog(httpRequest, wrappedResp, requestBody, responseStr, end);
+        return responseStr;
     }
 
-    public String getRequestBody(HttpServletRequest httpRequest) throws IOException {
-        BufferedReader reader = httpRequest.getReader();
-        StringBuilder sb = new StringBuilder();
-        String line;
-        while ((line = reader.readLine()) != null) {
-            sb.append(line);
-        }
-        return sb.toString();
+    public String getResponseBody(HttpServletResponse httpServletResponse, ByteArrayOutputStream baos) throws IOException {
+        byte[] bytes = baos.toByteArray();
+        String responseStr = new String(bytes);
+        httpServletResponse.getOutputStream().write(bytes);
+        return responseStr;
     }
-
 
     public void generateLog(HttpServletRequest req, HttpServletResponse res, String requestString, String responseStr, long time) throws IOException {
 
@@ -141,3 +148,4 @@ public class RequestResponseLoggingFilter implements Filter {
         }
     }
 }
+
