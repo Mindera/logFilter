@@ -29,7 +29,7 @@ public class RequestResponseLoggingFilter implements Filter {
                 .configure(JsonGenerator.Feature.AUTO_CLOSE_TARGET, false);
     }
 
-/*    @Override
+  /*  @Override
     public void doFilter(ServletRequest request,
                          ServletResponse response,
                          FilterChain filterChain) throws IOException, ServletException {
@@ -57,14 +57,12 @@ public class RequestResponseLoggingFilter implements Filter {
                          ServletResponse servletResponse,
                          FilterChain filterChain) throws IOException, ServletException {
 
+        RequestWrapper requestWrapper = new RequestWrapper((HttpServletRequest) servletRequest);
+
         final ByteArrayOutputStream baos = new ByteArrayOutputStream();
         final ByteArrayPrintWriter pw = new ByteArrayPrintWriter(baos);
 
-        HttpServletRequest httpRequest = (HttpServletRequest) servletRequest;
-        HttpServletResponse httpResponse = (HttpServletResponse) servletResponse;
-
-        final HttpServletRequest wrappedRequest = new HttpServletRequestWrapper(httpRequest);
-        final HttpServletResponse wrappedResponse = new HttpServletResponseWrapper(httpResponse) {
+        HttpServletResponse wrappedResp = new HttpServletResponseWrapper((HttpServletResponse) servletResponse) {
             @Override
             public PrintWriter getWriter() {
                 return pw;
@@ -80,6 +78,7 @@ public class RequestResponseLoggingFilter implements Filter {
 
                     @Override
                     public void setWriteListener(WriteListener writeListener) {
+
                     }
 
                     @Override
@@ -90,26 +89,31 @@ public class RequestResponseLoggingFilter implements Filter {
             }
         };
 
+
         long start = System.currentTimeMillis();
-        filterChain.doFilter(wrappedRequest, wrappedResponse);
+        filterChain.doFilter(requestWrapper, wrappedResp);
         long end = System.currentTimeMillis() - start;
-
-        String requestBody = getRequestBody(httpRequest, baos);
-        String responseBody = getResponseBody(httpResponse, baos);
-
-        generateLog(httpRequest, httpResponse, requestBody, responseBody, end);
-    }
-
-    public String getRequestBody(HttpServletRequest httpServletRequest, ByteArrayOutputStream baos) throws IOException {
-        ByteArrayOutputStream targetStream = new ByteArrayOutputStream();
-        IOUtils.copy(httpServletRequest.getInputStream(), targetStream);
 
         byte[] bytes = baos.toByteArray();
         String responseStr = new String(bytes);
-        targetStream.write(bytes);
+        servletResponse.getOutputStream().write(bytes);
 
-        return responseStr;
+        String requestBody = requestWrapper.getBody();
+        String responseBody = responseStr;
+
+        generateLog(requestWrapper, ((HttpServletResponse)servletResponse), requestBody, responseBody, end);
     }
+
+//    public String getRequestBody(HttpServletRequest httpServletRequest, ByteArrayOutputStream baos) throws IOException {
+//        ByteArrayOutputStream targetStream = new ByteArrayOutputStream();
+//        IOUtils.copy(httpServletRequest.getInputStream(), targetStream);
+//
+//        byte[] bytes = baos.toByteArray();
+//        String responseStr = new String(bytes);
+//        targetStream.write(bytes);
+//
+//        return responseStr;
+//    }
 
     public String getResponseBody(HttpServletResponse httpServletResponse, ByteArrayOutputStream baos) throws IOException {
         byte[] bytes = baos.toByteArray();
