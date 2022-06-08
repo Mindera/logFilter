@@ -10,11 +10,11 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 
-	<groupId>mindera.solverde</groupId>
+	<groupId>mindera</groupId>
 	<artifactId>logfilter</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>logfilter</name>
-	<description>Log filter for REST API requests/responses</description>
+	<description>Springless log filter for REST API requests/responses</description>
 
 	<properties>
 		<java.version>1.8</java.version>
@@ -25,13 +25,6 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
-		</dependency>
-
-		<!-- https://mvnrepository.com/artifact/commons-io/commons-io -->
-		<dependency>
-			<groupId>commons-io</groupId>
-			<artifactId>commons-io</artifactId>
-			<version>2.6</version>
 		</dependency>
 
 	</dependencies>
