@@ -1,3 +1,6 @@
+//Copyright 2022 Mindera
+//SPDX-License-Identifier: Apache-2.0
+
 package mindera.logfilter.service;
 
 import java.io.IOException;

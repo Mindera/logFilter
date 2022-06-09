@@ -1,3 +1,6 @@
+//Copyright 2022 Mindera
+//SPDX-License-Identifier: Apache-2.0
+
 package mindera.logfilter.service;
 
 import java.util.HashMap;
@@ -18,7 +21,6 @@ public enum SpringlessHttpMethod {
     private SpringlessHttpMethod() {
     }
 
-    //@Nullable
     public static SpringlessHttpMethod resolve(/*@Nullable*/ String method) {
         return method != null ? (SpringlessHttpMethod)mappings.get(method) : null;
     }

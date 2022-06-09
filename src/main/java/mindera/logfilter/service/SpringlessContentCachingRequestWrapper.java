@@ -1,3 +1,6 @@
+//Copyright 2022 Mindera
+//SPDX-License-Identifier: Apache-2.0
+
 package mindera.logfilter.service;
 
 import java.io.BufferedReader;
@@ -18,11 +21,8 @@ import javax.servlet.http.HttpServletRequestWrapper;
 public class SpringlessContentCachingRequestWrapper extends HttpServletRequestWrapper {
     private static final String FORM_CONTENT_TYPE = "application/x-www-form-urlencoded";
     private final ByteArrayOutputStream cachedContent;
-    //@Nullable
     private final Integer contentCacheLimit;
-    //@Nullable
     private ServletInputStream inputStream;
-    //@Nullable
     private BufferedReader reader;
 
     public SpringlessContentCachingRequestWrapper(HttpServletRequest request) {
@@ -105,7 +105,6 @@ public class SpringlessContentCachingRequestWrapper extends HttpServletRequestWr
 
                 while(nameIterator.hasNext()) {
                     String name = (String)nameIterator.next();
-                    //List<String> values = Arrays.asList((Object[])form.get(name));
                     List<String> values = Arrays.asList(form.get(name));
                     Iterator valueIterator = values.iterator();
 

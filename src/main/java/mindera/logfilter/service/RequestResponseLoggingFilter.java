@@ -1,3 +1,6 @@
+//Copyright 2022 Mindera
+//SPDX-License-Identifier: Apache-2.0
+
 package mindera.logfilter.service;
 
 import com.fasterxml.jackson.core.JsonGenerator;
@@ -13,7 +16,7 @@ import java.io.*;
 import java.util.Collections;
 import java.util.Map;
 import java.util.stream.Collectors;
-//
+
 public class RequestResponseLoggingFilter implements Filter {
 
     private final ObjectMapper objectMapper;

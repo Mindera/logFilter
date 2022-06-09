@@ -1,5 +1,7 @@
-package mindera.logfilter.service;
+//Copyright 2022 Mindera
+//SPDX-License-Identifier: Apache-2.0
 
+package mindera.logfilter.service;
 
 import java.io.IOException;
 import java.io.OutputStream;
@@ -27,10 +29,6 @@ public class SpringlessFastByteArrayOutputStream extends OutputStream {
         this.alreadyBufferedSize = 0;
         this.index = 0;
         this.closed = false;
-        //Assert.isTrue(initialBlockSize > 0, "Initial block size must be greater than 0");
-        //if (initialBlockSize > 0) {
-        //    throw new IllegalArgumentException("Initial block size must be greater than 0");
-        //}
         this.initialBlockSize = initialBlockSize;
         this.nextBlockSize = initialBlockSize;
     }
@@ -139,10 +137,6 @@ public class SpringlessFastByteArrayOutputStream extends OutputStream {
     }
 
     public void resize(int targetCapacity) {
-        //Assert.isTrue(targetCapacity >= this.size(), "New capacity must not be smaller than current size");
-        //if (targetCapacity >= this.size()) {
-        //    throw new IllegalArgumentException("New capacity must not be smaller than current size");
-        //}
         if (this.buffers.peekFirst() == null) {
             this.nextBlockSize = targetCapacity - this.size();
         } else if (this.size() != targetCapacity || ((byte[])this.buffers.getFirst()).length != targetCapacity) {
@@ -197,7 +191,6 @@ public class SpringlessFastByteArrayOutputStream extends OutputStream {
     private static final class FastByteArrayInputStream extends SpringlessUpdateMessageDigestInputStream {
         private final SpringlessFastByteArrayOutputStream fastByteArrayOutputStream;
         private final Iterator<byte[]> buffersIterator;
-        //@Nullable
         private byte[] currentBuffer;
         private int currentBufferLength = 0;
         private int nextIndexInCurrentBuffer = 0;

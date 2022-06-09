@@ -1,3 +1,6 @@
+//Copyright 2022 Mindera
+//SPDX-License-Identifier: Apache-2.0
+
 package mindera.logfilter.service;
 
 import java.io.IOException;
@@ -13,11 +16,8 @@ import javax.servlet.http.HttpServletResponseWrapper;
 
 public class SpringlessContentCachingResponseWrapper extends HttpServletResponseWrapper {
     private final SpringlessFastByteArrayOutputStream content = new SpringlessFastByteArrayOutputStream();
-    //@Nullable
     private ServletOutputStream outputStream;
-    //@Nullable
     private PrintWriter writer;
-    //@Nullable
     private Integer contentLength;
 
     public SpringlessContentCachingResponseWrapper(HttpServletResponse response) {
@@ -177,7 +177,6 @@ public class SpringlessContentCachingResponseWrapper extends HttpServletResponse
         }
 
         public void write(byte[] b, int off, int len) throws IOException {
-            //SpringlessContentCachingResponseWrapper.content.write(b, off, len);
             SpringlessContentCachingResponseWrapper.this.content.write(b, off, len);
         }
 
