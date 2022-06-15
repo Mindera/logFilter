@@ -1,55 +1,52 @@
+//Copyright 2022 Mindera
+//SPDX-License-Identifier: Apache-2.0
+
 package mindera.logfilter.service;
 
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import mindera.logfilter.models.Log;
 import mindera.logfilter.models.Request;
+import mindera.logfilter.models.Log;
 import mindera.logfilter.models.Response;
 
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
+import java.io.*;
 import java.util.Collections;
 import java.util.Map;
 import java.util.stream.Collectors;
-
 
 public class RequestResponseLoggingFilter implements Filter {
 
     private final ObjectMapper objectMapper;
 
-
     public RequestResponseLoggingFilter() {
-        objectMapper = new ObjectMapper()
-//                .enable(SerializationFeature.INDENT_OUTPUT)
-                .configure(JsonGenerator.Feature.AUTO_CLOSE_TARGET, false);
+        objectMapper = new ObjectMapper().configure(JsonGenerator.Feature.AUTO_CLOSE_TARGET, false);
     }
 
     @Override
-    public void doFilter(ServletRequest servletRequest,
-                         ServletResponse servletResponse,
+    public void doFilter(ServletRequest request,
+                         ServletResponse response,
                          FilterChain filterChain) throws IOException, ServletException {
 
-        RequestWrapper requestWrapper = new RequestWrapper((HttpServletRequest) servletRequest);
-        ResponseWrapper wrappedResp = new ResponseWrapper((HttpServletResponse) servletResponse);
-
+        SpringlessContentCachingRequestWrapper requestWrapper = new SpringlessContentCachingRequestWrapper((HttpServletRequest) request);
+        SpringlessContentCachingResponseWrapper responseWrapper = new SpringlessContentCachingResponseWrapper((HttpServletResponse) response);
 
         long start = System.currentTimeMillis();
-        filterChain.doFilter(requestWrapper, wrappedResp);
-        long end = System.currentTimeMillis() - start;
+        filterChain.doFilter(requestWrapper, responseWrapper);
+        long time = System.currentTimeMillis() - start;
 
-        byte[] bytes = wrappedResp.getBaos().toByteArray();
-        String responseStr = new String(bytes);
-        servletResponse.getOutputStream().write(bytes);
+        byte[] requestArray = requestWrapper.getContentAsByteArray();
+        byte[] responseArray = responseWrapper.getContentAsByteArray();
+        String requestBody = new String(requestArray, request.getCharacterEncoding());
+        String responseBody = new String(responseArray, response.getCharacterEncoding());
 
-        String requestBody = requestWrapper.getBody();
-        String responseBody = responseStr;
+        responseWrapper.copyBodyToResponse();
 
-        generateLog(requestWrapper, wrappedResp, requestBody, responseBody, end);
+        generateLog(requestWrapper, responseWrapper, requestBody, responseBody, time);
+
     }
-
-
 
     public void generateLog(HttpServletRequest req, HttpServletResponse res, String requestString, String responseStr, long time) throws IOException {
 
@@ -70,10 +67,9 @@ public class RequestResponseLoggingFilter implements Filter {
                         req.getRequestURI(),
                         req.getQueryString(),
                         headers));
-        log.setResponseTime(String.valueOf(time) + " ms \n");
+        log.setResponseTime(time + " ms\n");
 
         objectMapper.writeValue(System.out, log);
     }
-
 }
 
