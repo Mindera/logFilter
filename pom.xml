@@ -12,7 +12,7 @@
 
 	<groupId>mindera</groupId>
 	<artifactId>logfilter</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>1.0.0</version>
 	<name>logfilter</name>
 	<description>Springless log filter for REST API requests/responses</description>
 
