@@ -26,6 +26,11 @@ public class RequestResponseLoggingFilter implements Filter {
     }
 
     @Override
+    public void init(FilterConfig filterConfig) throws ServletException {
+
+    }
+
+    @Override
     public void doFilter(ServletRequest request,
                          ServletResponse response,
                          FilterChain filterChain) throws IOException, ServletException {
@@ -45,6 +50,11 @@ public class RequestResponseLoggingFilter implements Filter {
         responseWrapper.copyBodyToResponse();
 
         generateLog(requestWrapper, responseWrapper, requestBody, responseBody, time);
+
+    }
+
+    @Override
+    public void destroy() {
 
     }
 

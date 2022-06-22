@@ -41,7 +41,7 @@ public class SpringlessContentCachingResponseWrapper extends HttpServletResponse
         try {
             super.sendError(sc, msg);
         } catch (IllegalStateException var4) {
-            super.setStatus(sc, msg);
+            super.setStatus(sc);
         }
 
     }
