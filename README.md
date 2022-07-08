@@ -14,7 +14,6 @@ so it can be used without Spring Boot and in different Frameworks.
 ## Install
 
 To use the LogFilter add it as an external library on your project.
-The .jar file is located in out/artifacts/logfilter_jar
 
 ## Authors
 

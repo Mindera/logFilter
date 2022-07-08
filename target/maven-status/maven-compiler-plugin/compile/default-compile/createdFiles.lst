@@ -1,0 +1,13 @@
+mindera/logfilter/service/SpringlessContentCachingRequestWrapper$ContentCachingInputStream.class
+mindera/logfilter/service/SpringlessUpdateMessageDigestInputStream.class
+mindera/logfilter/service/SpringlessHttpMethod.class
+mindera/logfilter/service/RequestResponseLoggingFilter.class
+mindera/logfilter/models/Request.class
+mindera/logfilter/service/SpringlessContentCachingRequestWrapper.class
+mindera/logfilter/models/Log.class
+mindera/logfilter/service/SpringlessFastByteArrayOutputStream.class
+mindera/logfilter/service/SpringlessContentCachingResponseWrapper$ResponseServletOutputStream.class
+mindera/logfilter/service/SpringlessContentCachingResponseWrapper$ResponsePrintWriter.class
+mindera/logfilter/service/SpringlessFastByteArrayOutputStream$FastByteArrayInputStream.class
+mindera/logfilter/models/Response.class
+mindera/logfilter/service/SpringlessContentCachingResponseWrapper.class
