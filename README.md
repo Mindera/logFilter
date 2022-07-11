@@ -9,7 +9,7 @@ wrappers based on Spring Boot ContentCachingRequestWrapper and
 ContentCachingResponseWrapper without actualy using Spring Boot,
 so it can be used without Spring Boot and in different Frameworks.
 
-- [It also has an Spring Boot AutoStarter made as a seperate library.](https://github.com/DiogoNoronha)
+- [It also has an Spring Boot AutoStarter made as a seperate library.](https://github.com/Mindera/logFilterAutoStarter)
 
 ## Install
 
