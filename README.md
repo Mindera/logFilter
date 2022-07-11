@@ -13,7 +13,7 @@ so it can be used without Spring Boot and in different Frameworks.
 
 ## Install
 
-- [To use the LogStarter add the dependency in the link to the POM of your project.](https://github.com/Mindera/logFilter/packages/1526108)
+- [To use the LogFilter add the dependency in the link to the POM of your project.](https://github.com/Mindera/logFilter/packages/1526108)
 
 ## Authors
 
