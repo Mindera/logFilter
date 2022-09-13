@@ -3,12 +3,24 @@
 
 package mindera.logfilter.models;
 
-public class Response {
+import java.util.Map;
+
+public abstract class Response {
 
     private String body;
+    private Map<String, String> header;
 
-    public Response(String body) {
+    public Response(String body, Map<String, String> header) {
         this.body = body;
+        this.header = header;
+    }
+
+    public Map<String, String> getHeader() {
+        return header;
+    }
+
+    public void setHeader(Map<String, String> header) {
+        this.header = header;
     }
 
     public String getBody() {
@@ -18,6 +30,7 @@ public class Response {
     public void setBody(String body) {
         this.body = body;
     }
+
 }
 
 
