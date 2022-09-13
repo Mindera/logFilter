@@ -26,7 +26,7 @@
 		<repository>
 			<id>github</id>
 			<name>GitHub Mindera Apache Maven Packages</name>
-			<url>https://maven.pkg.github.com/Mindera/logfilter</url>
+			<url>https://maven.pkg.github.com/mindera/logfilter</url>
 		</repository>
 	</distributionManagement>
 

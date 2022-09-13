@@ -9,17 +9,7 @@
     <remote-repository>
       <option name="id" value="github" />
       <option name="name" value="github" />
-      <option name="url" value="https://maven.pkg.github.com/Mindera/logstarter" />
-    </remote-repository>
-    <remote-repository>
-      <option name="id" value="github" />
-      <option name="name" value="github" />
       <option name="url" value="https://maven.pkg.github.com/Mindera/logfilter" />
-    </remote-repository>
-    <remote-repository>
-      <option name="id" value="github" />
-      <option name="name" value="github" />
-      <option name="url" value="https://maven.pkg.github.com/Mindera/logFilterAutoStarter" />
     </remote-repository>
     <remote-repository>
       <option name="id" value="github" />
@@ -29,12 +19,52 @@
     <remote-repository>
       <option name="id" value="github" />
       <option name="name" value="github" />
-      <option name="url" value="https://maven.pkg.github.com/OWNER/REPOSITORY" />
+      <option name="url" value="https://maven.pkg.github.com/mindera/logfilter" />
     </remote-repository>
     <remote-repository>
       <option name="id" value="central" />
       <option name="name" value="Maven Central repository" />
       <option name="url" value="https://repo1.maven.org/maven2" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="github" />
+      <option name="name" value="github" />
+      <option name="url" value="https://maven.pkg.github.com/mindera/REPOSITORY" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="central" />
+      <option name="name" value="central" />
+      <option name="url" value="https://repo1.maven.org/maven2" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="github" />
+      <option name="name" value="github" />
+      <option name="url" value="https://maven.pkg.github.com/Mindera/logStarter" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="github" />
+      <option name="name" value="github" />
+      <option name="url" value="https://maven.pkg.github.com/mindera/logFilterAutoStarter" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="github" />
+      <option name="name" value="github" />
+      <option name="url" value="https://maven.pkg.github.com/Mindera/logstarter" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="github" />
+      <option name="name" value="github" />
+      <option name="url" value="https://maven.pkg.github.com/Mindera/logFilterAutoStarter" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="CGP-Solverde" />
+      <option name="name" value="CGP-Solverde" />
+      <option name="url" value="artifactregistry://europe-west1-maven.pkg.dev/casinosolverde-dev/solverde-nexus" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="github" />
+      <option name="name" value="github" />
+      <option name="url" value="https://maven.pkg.github.com/OWNER/REPOSITORY" />
     </remote-repository>
     <remote-repository>
       <option name="id" value="jboss.community" />
@@ -50,16 +80,6 @@
       <option name="id" value="github" />
       <option name="name" value="github" />
       <option name="url" value="https://maven.pkg.github.com/Mindera/lofFilterAutoStarter" />
-    </remote-repository>
-    <remote-repository>
-      <option name="id" value="central" />
-      <option name="name" value="central" />
-      <option name="url" value="https://repo1.maven.org/maven2" />
-    </remote-repository>
-    <remote-repository>
-      <option name="id" value="github" />
-      <option name="name" value="github" />
-      <option name="url" value="https://maven.pkg.github.com/Mindera/logStarter" />
     </remote-repository>
   </component>
 </project>

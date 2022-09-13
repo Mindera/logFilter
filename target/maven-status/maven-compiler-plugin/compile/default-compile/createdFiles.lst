@@ -6,8 +6,10 @@ mindera/logfilter/models/Request.class
 mindera/logfilter/service/SpringlessContentCachingRequestWrapper.class
 mindera/logfilter/models/Log.class
 mindera/logfilter/service/SpringlessFastByteArrayOutputStream.class
+mindera/logfilter/models/StandardResponse.class
 mindera/logfilter/service/SpringlessContentCachingResponseWrapper$ResponseServletOutputStream.class
 mindera/logfilter/service/SpringlessContentCachingResponseWrapper$ResponsePrintWriter.class
+mindera/logfilter/models/ErrorResponse.class
 mindera/logfilter/service/SpringlessFastByteArrayOutputStream$FastByteArrayInputStream.class
 mindera/logfilter/models/Response.class
 mindera/logfilter/service/SpringlessContentCachingResponseWrapper.class
