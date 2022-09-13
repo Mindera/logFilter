@@ -22,7 +22,7 @@ public class RequestResponseLoggingFilter implements Filter {
     }
 
     @Override
-    public void init(FilterConfig filterConfig) throws ServletException {
+    public void init(FilterConfig filterConfig) {
     }
 
     @Override
@@ -32,9 +32,7 @@ public class RequestResponseLoggingFilter implements Filter {
 
 
     @Override
-    public void doFilter(ServletRequest request,
-                         ServletResponse response,
-                         FilterChain filterChain) throws IOException, ServletException {
+    public void doFilter(ServletRequest request, ServletResponse response, FilterChain filterChain) throws IOException, ServletException {
 
         SpringlessContentCachingRequestWrapper requestWrapper = new SpringlessContentCachingRequestWrapper((HttpServletRequest) request);
         SpringlessContentCachingResponseWrapper responseWrapper = new SpringlessContentCachingResponseWrapper((HttpServletResponse) response);
@@ -77,25 +75,15 @@ public class RequestResponseLoggingFilter implements Filter {
     public void generateLog(HttpServletRequest req, HttpServletResponse res, long time, int statusCode, String requestString, String responseStr) throws IOException {
         Log log = new Log();
 
-        Map<String, String> requestHeader = Collections.list(req.getHeaderNames())
-                .stream()
-                .collect(Collectors.toMap(h -> h, req::getHeader, (existingValue, newValue) -> newValue));
+        Map<String, String> requestHeader = Collections.list(req.getHeaderNames()).stream().collect(Collectors.toMap(h -> h, req::getHeader, (existingValue, newValue) -> newValue));
 
-        Map<String, String> responseHeader = res.getHeaderNames()
-                .stream()
-                .collect(Collectors.toMap(h -> h, res::getHeader, (existingValue, newValue) -> newValue));
+        Map<String, String> responseHeader = res.getHeaderNames().stream().collect(Collectors.toMap(h -> h, res::getHeader, (existingValue, newValue) -> newValue));
 
         log.setDate(res.getHeader("Date"));
         log.setResponse(new StandardResponse(responseStr, responseHeader, statusCode));
         log.setService(res.getHeader("Service"));
         log.setEnvironment(res.getHeader("Environment"));
-        log.setRequest(
-                new Request(
-                        requestString,
-                        req.getMethod(),
-                        req.getRequestURI(),
-                        req.getQueryString(),
-                        requestHeader));
+        log.setRequest(new Request(requestString, req.getMethod(), req.getRequestURI(), req.getQueryString(), requestHeader));
         log.setResponseTime(time + " ms");
 
         objectMapper.writeValue(System.out, log);
@@ -107,26 +95,16 @@ public class RequestResponseLoggingFilter implements Filter {
         Log log = new Log();
 
 
-        Map<String, String> requestHeader = Collections.list(req.getHeaderNames())
-                .stream()
-                .collect(Collectors.toMap(h -> h, req::getHeader, (existingValue, newValue) -> newValue));
+        Map<String, String> requestHeader = Collections.list(req.getHeaderNames()).stream().collect(Collectors.toMap(h -> h, req::getHeader, (existingValue, newValue) -> newValue));
 
-        Map<String, String> responseHeader = res.getHeaderNames()
-                .stream()
-                .collect(Collectors.toMap(h -> h, res::getHeader, (existingValue, newValue) -> newValue));
+        Map<String, String> responseHeader = res.getHeaderNames().stream().collect(Collectors.toMap(h -> h, res::getHeader, (existingValue, newValue) -> newValue));
 
 
         log.setDate(res.getHeader("Date"));
         log.setResponse(new ErrorResponse(responseStr, responseHeader, exceptionMessage));
         log.setService(res.getHeader("Service"));
         log.setEnvironment(res.getHeader("Environment"));
-        log.setRequest(
-                new Request(
-                        requestString,
-                        req.getMethod(),
-                        req.getRequestURI(),
-                        req.getQueryString(),
-                        requestHeader));
+        log.setRequest(new Request(requestString, req.getMethod(), req.getRequestURI(), req.getQueryString(), requestHeader));
         log.setResponseTime(time + " ms");
 
         objectMapper.writeValue(System.out, log);
