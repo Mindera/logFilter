@@ -2,10 +2,7 @@ package mindera.logfilter.service;
 
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import mindera.logfilter.models.ErrorResponse;
-import mindera.logfilter.models.Log;
-import mindera.logfilter.models.Request;
-import mindera.logfilter.models.StandardResponse;
+import mindera.logfilter.models.*;
 
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
