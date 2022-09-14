@@ -4,6 +4,7 @@
 package mindera.logfilter.models;
 
 public class Log {
+    private static final String LABEL = "logFilter";
     private Response response;
     private String date;
     private String service;
@@ -60,6 +61,22 @@ public class Log {
 
     public void setResponseTime(String responseTime) {
         this.responseTime = responseTime;
+    }
+
+    public String getLABEL() {
+        return LABEL;
+    }
+    @Override
+    public String toString() {
+        return "Log{" +
+                " label='" + LABEL + '\'' +
+                ", response=" + response +
+                ", date='" + date + '\'' +
+                ", service='" + service + '\'' +
+                ", environment='" + environment + '\'' +
+                ", request=" + request +
+                ", responseTime='" + responseTime + '\'' +
+                '}';
     }
 }
 
