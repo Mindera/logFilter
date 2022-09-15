@@ -4,7 +4,7 @@
 
 	<groupId>mindera</groupId>
 	<artifactId>logfilter</artifactId>
-	<version>0.0.7-SNAPSHOT</version>
+	<version>0.0.8-SNAPSHOT</version>
 	<name>logfilter</name>
 	<packaging>jar</packaging>
 	<description>Springless log filter for REST API requests/responses</description>
@@ -12,7 +12,6 @@
 	<properties>
 		<java.version>1.8</java.version>
 	</properties>
-
 	<licenses>
 		<license>
 			<name>Apache License, Version 2.0</name>
@@ -38,7 +37,7 @@
 		<connection>scm:git:git://github.com/mindera/logfilter.git</connection>
 		<developerConnection>scm:git:git://github.com/mindera/logfilter.git</developerConnection>
 		<url>https://github.com/mindera/logfilter</url>
-		<tag>logfilter-0.0.7-SNAPSHOT</tag>
+		<tag>logfilter-0.0.8-SNAPSHOT</tag>
 	</scm>
 
 	<dependencies>
