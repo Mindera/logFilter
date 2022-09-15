@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>mindera</groupId>
 	<artifactId>logfilter</artifactId>
-	<version>0.0.4</version>
+	<version>0.0.3-SNAPSHOT</version>
 	<name>logfilter</name>
 	<packaging>jar</packaging>
 	<description>Springless log filter for REST API requests/responses</description>
@@ -33,13 +34,12 @@
 			<url>https://maven.pkg.github.com/mindera/logfilter</url>
 		</repository>
 
-
 	</distributionManagement>
 <scm>
 	<connection>scm:git:git://github.com/mindera/logfilter.git</connection>
 	<developerConnection>scm:git:git://github.com/mindera/logfilter.git</developerConnection>
 	<url>https://github.com/mindera/logfilter</url>
-	<tag>logfilter-0.0.4</tag>
+	<tag>logfilter</tag>
 </scm>
 
 	<dependencies>
