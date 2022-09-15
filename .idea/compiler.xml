@@ -7,17 +7,7 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="logFilter" />
-        <module name="logfilter" />
-      </profile>
-      <profile name="Annotation profile for logfilter" enabled="true">
-        <sourceOutputDir name="../target/generated-sources/annotations" />
-        <sourceTestOutputDir name="../target/generated-test-sources/test-annotations" />
-        <outputRelativeToContentRoot value="true" />
-        <module name="logFilter" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel>
-      <module name="logFilter" target="1.8" />
-    </bytecodeTargetLevel>
   </component>
 </project>
