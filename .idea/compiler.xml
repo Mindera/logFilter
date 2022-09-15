@@ -10,5 +10,8 @@
         <module name="logfilter" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="logFilter" target="1.8" />
+    </bytecodeTargetLevel>
   </component>
 </project>
