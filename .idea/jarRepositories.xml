@@ -57,6 +57,11 @@
       <option name="url" value="https://maven.pkg.github.com/Mindera/logFilterAutoStarter" />
     </remote-repository>
     <remote-repository>
+      <option name="id" value="github" />
+      <option name="name" value="github" />
+      <option name="url" value="artifactregistry://europe-west1-maven.pkg.dev/casinosolverde-dev/solverde-nexus" />
+    </remote-repository>
+    <remote-repository>
       <option name="id" value="CGP-Solverde" />
       <option name="name" value="CGP-Solverde" />
       <option name="url" value="artifactregistry://europe-west1-maven.pkg.dev/casinosolverde-dev/solverde-nexus" />
@@ -80,6 +85,11 @@
       <option name="id" value="github" />
       <option name="name" value="github" />
       <option name="url" value="https://maven.pkg.github.com/Mindera/lofFilterAutoStarter" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="git" />
+      <option name="name" value="git" />
+      <option name="url" value="artifactregistry://europe-west1-maven.pkg.dev/casinosolverde-dev/solverde-nexus" />
     </remote-repository>
   </component>
 </project>

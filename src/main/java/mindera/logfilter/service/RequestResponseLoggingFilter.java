@@ -17,8 +17,11 @@ public class RequestResponseLoggingFilter implements Filter {
 
     private final ObjectMapper objectMapper;
 
+    private final Log log;
+
     public RequestResponseLoggingFilter() {
         this.objectMapper = new ObjectMapper().configure(JsonGenerator.Feature.AUTO_CLOSE_TARGET, false);
+        this.log = new Log();
     }
 
     @Override
@@ -33,6 +36,7 @@ public class RequestResponseLoggingFilter implements Filter {
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain filterChain) throws IOException, ServletException {
+
         SpringlessContentCachingRequestWrapper requestWrapper = new SpringlessContentCachingRequestWrapper((HttpServletRequest) request);
         SpringlessContentCachingResponseWrapper responseWrapper = new SpringlessContentCachingResponseWrapper((HttpServletResponse) response);
 
@@ -41,10 +45,13 @@ public class RequestResponseLoggingFilter implements Filter {
         try {
             filterChain.doFilter(requestWrapper, responseWrapper);
             handleRequest(request, response, requestWrapper, responseWrapper, start);
+
         } catch (Exception e) {
             handleRequest(request, response, requestWrapper, responseWrapper, start, e.getLocalizedMessage());
             throw new ServletException(e);
         }
+
+
     }
 
     private void handleRequest(ServletRequest request, ServletResponse response, SpringlessContentCachingRequestWrapper requestWrapper, SpringlessContentCachingResponseWrapper responseWrapper, long start, String exceptionMessage) throws IOException {
@@ -63,41 +70,35 @@ public class RequestResponseLoggingFilter implements Filter {
         String responseBody = new String(responseArray, response.getCharacterEncoding());
         responseWrapper.copyBodyToResponse();
         int statusCode = responseWrapper.getStatus();
-        generateLog(requestWrapper, responseWrapper, start, statusCode, requestBody, responseBody);
+        generateLog(requestWrapper, responseWrapper, requestBody, responseBody, start, statusCode);
     }
 
-    public void generateLog(HttpServletRequest req, HttpServletResponse res, long start, int statusCode, String requestString, String responseStr) throws IOException {
+    public void generateLog(HttpServletRequest req, HttpServletResponse res, String requestString, String responseStr, long start, int statusCode) throws IOException {
         Log log = new Log();
-
-        Map<String, String> requestHeader = Collections.list(req.getHeaderNames()).stream().collect(Collectors.toMap(h -> h, req::getHeader, (existingValue, newValue) -> newValue));
+        setLogDetails(log, req, res, requestString);
         Map<String, String> responseHeader = res.getHeaderNames().stream().collect(Collectors.toMap(h -> h, res::getHeader, (existingValue, newValue) -> newValue));
-
-        log.setDate(res.getHeader("Date"));
         log.setResponse(new StandardResponse(responseStr, responseHeader, statusCode));
-        log.setService(res.getHeader("Service"));
-        log.setEnvironment(res.getHeader("Environment"));
-        log.setRequest(new Request(requestString, req.getMethod(), req.getRequestURI(), req.getQueryString(), requestHeader));
-        long time = System.currentTimeMillis() - start;
-        log.setResponseTime(time + " ms");
-
-        objectMapper.writeValue(System.out, log);
-        System.out.printf("\n\n");
+        log.setResponseTime(System.currentTimeMillis() - start + " ms");
+        printLog(objectMapper, log);
     }
-
     public void generateLog(HttpServletRequest req, HttpServletResponse res, String requestString, String responseStr, long start, String exceptionMessage) throws IOException {
         Log log = new Log();
-
-        Map<String, String> requestHeader = Collections.list(req.getHeaderNames()).stream().collect(Collectors.toMap(h -> h, req::getHeader, (existingValue, newValue) -> newValue));
+        setLogDetails(log, req, res, requestString);
         Map<String, String> responseHeader = res.getHeaderNames().stream().collect(Collectors.toMap(h -> h, res::getHeader, (existingValue, newValue) -> newValue));
-
-        log.setDate(res.getHeader("Date"));
         log.setResponse(new ErrorResponse(responseStr, responseHeader, exceptionMessage));
+        log.setResponseTime(System.currentTimeMillis() - start + " ms");
+        printLog(objectMapper, log);
+    }
+
+    public void setLogDetails(Log log, HttpServletRequest req, HttpServletResponse res, String requestString) {
+        Map<String, String> requestHeader = Collections.list(req.getHeaderNames()).stream().collect(Collectors.toMap(h -> h, req::getHeader, (existingValue, newValue) -> newValue));
+        log.setRequest(new Request(requestString, req.getMethod(), req.getRequestURI(), req.getQueryString(), requestHeader));
+        log.setDate(res.getHeader("Date"));
         log.setService(res.getHeader("Service"));
         log.setEnvironment(res.getHeader("Environment"));
-        log.setRequest(new Request(requestString, req.getMethod(), req.getRequestURI(), req.getQueryString(), requestHeader));
-        long time = System.currentTimeMillis() - start;
-        log.setResponseTime(time + " ms");
+    }
 
+    private void printLog(ObjectMapper objectMapper, Log log) throws IOException {
         objectMapper.writeValue(System.out, log);
         System.out.printf("\n\n");
     }
