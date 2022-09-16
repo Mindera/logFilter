@@ -66,6 +66,7 @@ public class Log {
     public String getLABEL() {
         return LABEL;
     }
+
     @Override
     public String toString() {
         return "Log{" +

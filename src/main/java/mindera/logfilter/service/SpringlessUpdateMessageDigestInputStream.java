@@ -13,16 +13,16 @@ abstract class SpringlessUpdateMessageDigestInputStream extends InputStream {
 
     public void updateMessageDigest(MessageDigest messageDigest) throws IOException {
         int data;
-        while((data = this.read()) != -1) {
-            messageDigest.update((byte)data);
+        while ((data = this.read()) != -1) {
+            messageDigest.update((byte) data);
         }
 
     }
 
     public void updateMessageDigest(MessageDigest messageDigest, int len) throws IOException {
         int data;
-        for(int bytesRead = 0; bytesRead < len && (data = this.read()) != -1; ++bytesRead) {
-            messageDigest.update((byte)data);
+        for (int bytesRead = 0; bytesRead < len && (data = this.read()) != -1; ++bytesRead) {
+            messageDigest.update((byte) data);
         }
 
     }

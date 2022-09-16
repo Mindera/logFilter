@@ -103,13 +103,13 @@ public class SpringlessContentCachingRequestWrapper extends HttpServletRequestWr
                 Map<String, String[]> form = super.getParameterMap();
                 Iterator nameIterator = form.keySet().iterator();
 
-                while(nameIterator.hasNext()) {
-                    String name = (String)nameIterator.next();
+                while (nameIterator.hasNext()) {
+                    String name = (String) nameIterator.next();
                     List<String> values = Arrays.asList(form.get(name));
                     Iterator valueIterator = values.iterator();
 
-                    while(valueIterator.hasNext()) {
-                        String value = (String)valueIterator.next();
+                    while (valueIterator.hasNext()) {
+                        String value = (String) valueIterator.next();
                         this.cachedContent.write(URLEncoder.encode(name, requestEncoding).getBytes());
                         if (value != null) {
                             this.cachedContent.write(61);

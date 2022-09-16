@@ -81,6 +81,7 @@ public class RequestResponseLoggingFilter implements Filter {
         log.setResponseTime(System.currentTimeMillis() - start + " ms");
         printLog(objectMapper, log);
     }
+
     public void generateLog(HttpServletRequest req, HttpServletResponse res, String requestString, String responseStr, long start, String exceptionMessage) throws IOException {
         Log log = new Log();
         setLogDetails(log, req, res, requestString);

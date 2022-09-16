@@ -22,7 +22,7 @@ public enum SpringlessHttpMethod {
     }
 
     public static SpringlessHttpMethod resolve(/*@Nullable*/ String method) {
-        return method != null ? (SpringlessHttpMethod)mappings.get(method) : null;
+        return method != null ? (SpringlessHttpMethod) mappings.get(method) : null;
     }
 
     public boolean matches(String method) {
@@ -33,7 +33,7 @@ public enum SpringlessHttpMethod {
         SpringlessHttpMethod[] var0 = values();
         int var1 = var0.length;
 
-        for(int var2 = 0; var2 < var1; ++var2) {
+        for (int var2 = 0; var2 < var1; ++var2) {
             SpringlessHttpMethod httpMethod = var0[var2];
             mappings.put(httpMethod.name(), httpMethod);
         }

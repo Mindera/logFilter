@@ -83,7 +83,7 @@ public class SpringlessContentCachingResponseWrapper extends HttpServletResponse
         if (len > 2147483647L) {
             throw new IllegalArgumentException("Content-Length exceeds ContentCachingResponseWrapper's maximum (2147483647): " + len);
         } else {
-            int lenInt = (int)len;
+            int lenInt = (int) len;
             if (lenInt > this.content.size()) {
                 this.content.resize(lenInt);
             }
@@ -126,7 +126,7 @@ public class SpringlessContentCachingResponseWrapper extends HttpServletResponse
 
     protected void copyBodyToResponse(boolean complete) throws IOException {
         if (this.content.size() > 0) {
-            HttpServletResponse rawResponse = (HttpServletResponse)this.getResponse();
+            HttpServletResponse rawResponse = (HttpServletResponse) this.getResponse();
             if ((complete || this.contentLength != null) && !rawResponse.isCommitted()) {
                 if (rawResponse.getHeader("Transfer-Encoding") == null) {
                     rawResponse.setContentLength(complete ? this.content.size() : this.contentLength);

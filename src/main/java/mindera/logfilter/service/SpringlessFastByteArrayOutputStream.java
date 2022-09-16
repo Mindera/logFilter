@@ -37,11 +37,11 @@ public class SpringlessFastByteArrayOutputStream extends OutputStream {
         if (this.closed) {
             throw new IOException("Stream closed");
         } else {
-            if (this.buffers.peekLast() == null || ((byte[])this.buffers.getLast()).length == this.index) {
+            if (this.buffers.peekLast() == null || ((byte[]) this.buffers.getLast()).length == this.index) {
                 this.addBuffer(1);
             }
 
-            ((byte[])this.buffers.getLast())[this.index++] = (byte)datum;
+            ((byte[]) this.buffers.getLast())[this.index++] = (byte) datum;
         }
     }
 
@@ -50,19 +50,19 @@ public class SpringlessFastByteArrayOutputStream extends OutputStream {
             if (this.closed) {
                 throw new IOException("Stream closed");
             } else {
-                if (this.buffers.peekLast() == null || ((byte[])this.buffers.getLast()).length == this.index) {
+                if (this.buffers.peekLast() == null || ((byte[]) this.buffers.getLast()).length == this.index) {
                     this.addBuffer(length);
                 }
 
-                if (this.index + length > ((byte[])this.buffers.getLast()).length) {
+                if (this.index + length > ((byte[]) this.buffers.getLast()).length) {
                     int pos = offset;
 
                     do {
-                        if (this.index == ((byte[])this.buffers.getLast()).length) {
+                        if (this.index == ((byte[]) this.buffers.getLast()).length) {
                             this.addBuffer(length);
                         }
 
-                        int copyLength = ((byte[])this.buffers.getLast()).length - this.index;
+                        int copyLength = ((byte[]) this.buffers.getLast()).length - this.index;
                         if (length < copyLength) {
                             copyLength = length;
                         }
@@ -71,7 +71,7 @@ public class SpringlessFastByteArrayOutputStream extends OutputStream {
                         pos += copyLength;
                         this.index += copyLength;
                         length -= copyLength;
-                    } while(length > 0);
+                    } while (length > 0);
                 } else {
                     System.arraycopy(data, offset, this.buffers.getLast(), this.index, length);
                     this.index += length;
@@ -101,13 +101,13 @@ public class SpringlessFastByteArrayOutputStream extends OutputStream {
             return new byte[0];
         } else {
             this.resize(totalSize);
-            return (byte[])this.buffers.getFirst();
+            return (byte[]) this.buffers.getFirst();
         }
     }
 
     public byte[] toByteArray() {
         byte[] bytesUnsafe = this.toByteArrayUnsafe();
-        return (byte[])bytesUnsafe.clone();
+        return (byte[]) bytesUnsafe.clone();
     }
 
     public void reset() {
@@ -125,8 +125,8 @@ public class SpringlessFastByteArrayOutputStream extends OutputStream {
     public void writeTo(OutputStream out) throws IOException {
         Iterator it = this.buffers.iterator();
 
-        while(it.hasNext()) {
-            byte[] bytes = (byte[])it.next();
+        while (it.hasNext()) {
+            byte[] bytes = (byte[]) it.next();
             if (it.hasNext()) {
                 out.write(bytes, 0, bytes.length);
             } else {
@@ -139,14 +139,14 @@ public class SpringlessFastByteArrayOutputStream extends OutputStream {
     public void resize(int targetCapacity) {
         if (this.buffers.peekFirst() == null) {
             this.nextBlockSize = targetCapacity - this.size();
-        } else if (this.size() != targetCapacity || ((byte[])this.buffers.getFirst()).length != targetCapacity) {
+        } else if (this.size() != targetCapacity || ((byte[]) this.buffers.getFirst()).length != targetCapacity) {
             int totalSize = this.size();
             byte[] data = new byte[targetCapacity];
             int pos = 0;
             Iterator it = this.buffers.iterator();
 
-            while(it.hasNext()) {
-                byte[] bytes = (byte[])it.next();
+            while (it.hasNext()) {
+                byte[] bytes = (byte[]) it.next();
                 if (it.hasNext()) {
                     System.arraycopy(bytes, 0, data, pos, bytes.length);
                     pos += bytes.length;
@@ -200,7 +200,7 @@ public class SpringlessFastByteArrayOutputStream extends OutputStream {
             this.fastByteArrayOutputStream = fastByteArrayOutputStream;
             this.buffersIterator = fastByteArrayOutputStream.buffers.iterator();
             if (this.buffersIterator.hasNext()) {
-                this.currentBuffer = (byte[])this.buffersIterator.next();
+                this.currentBuffer = (byte[]) this.buffersIterator.next();
                 if (this.currentBuffer == fastByteArrayOutputStream.buffers.getLast()) {
                     this.currentBufferLength = fastByteArrayOutputStream.index;
                 } else {
@@ -218,7 +218,7 @@ public class SpringlessFastByteArrayOutputStream extends OutputStream {
                 return this.currentBuffer[this.nextIndexInCurrentBuffer++] & 255;
             } else {
                 if (this.buffersIterator.hasNext()) {
-                    this.currentBuffer = (byte[])this.buffersIterator.next();
+                    this.currentBuffer = (byte[]) this.buffersIterator.next();
                     this.updateCurrentBufferLength();
                     this.nextIndexInCurrentBuffer = 0;
                 } else {
@@ -248,7 +248,7 @@ public class SpringlessFastByteArrayOutputStream extends OutputStream {
                     return bytesToCopy + Math.max(remaining, 0);
                 } else {
                     if (this.buffersIterator.hasNext()) {
-                        this.currentBuffer = (byte[])this.buffersIterator.next();
+                        this.currentBuffer = (byte[]) this.buffersIterator.next();
                         this.updateCurrentBufferLength();
                         this.nextIndexInCurrentBuffer = 0;
                     } else {
@@ -270,24 +270,24 @@ public class SpringlessFastByteArrayOutputStream extends OutputStream {
             } else if (n < 0L) {
                 throw new IllegalArgumentException("n must be 0 or greater: " + n);
             } else {
-                int len = (int)n;
+                int len = (int) n;
                 if (this.currentBuffer == null) {
                     return 0L;
                 } else if (this.nextIndexInCurrentBuffer < this.currentBufferLength) {
                     int bytesToSkip = Math.min(len, this.currentBufferLength - this.nextIndexInCurrentBuffer);
                     this.totalBytesRead += bytesToSkip;
                     this.nextIndexInCurrentBuffer += bytesToSkip;
-                    return (long)bytesToSkip + this.skip((long)(len - bytesToSkip));
+                    return (long) bytesToSkip + this.skip((long) (len - bytesToSkip));
                 } else {
                     if (this.buffersIterator.hasNext()) {
-                        this.currentBuffer = (byte[])this.buffersIterator.next();
+                        this.currentBuffer = (byte[]) this.buffersIterator.next();
                         this.updateCurrentBufferLength();
                         this.nextIndexInCurrentBuffer = 0;
                     } else {
                         this.currentBuffer = null;
                     }
 
-                    return this.skip((long)len);
+                    return this.skip((long) len);
                 }
             }
         }
@@ -313,7 +313,7 @@ public class SpringlessFastByteArrayOutputStream extends OutputStream {
                             this.updateMessageDigest(messageDigest, len - bytesToCopy);
                         } else {
                             if (this.buffersIterator.hasNext()) {
-                                this.currentBuffer = (byte[])this.buffersIterator.next();
+                                this.currentBuffer = (byte[]) this.buffersIterator.next();
                                 this.updateCurrentBufferLength();
                                 this.nextIndexInCurrentBuffer = 0;
                             } else {
